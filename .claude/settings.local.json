@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Read(./config/credentials*)",
+      "Bash(cat:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(rm:*)",
+      "Bash(git push:*)"
+    ],
+    "ask": ["Bash(npm install:*)", "Bash(pnpm install:*)", "Bash(git commit:*)"]
+  }
+}
