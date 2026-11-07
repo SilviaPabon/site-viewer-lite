@@ -7,11 +7,10 @@ API (Node + Fastify) y visor web (Vue + three.js) para ver edificios escaneados 
 Requiere Node 18 o superior.
 
 ```
-npm install
-npm run dev
+npm start
 ```
 
-`npm run dev` genera las nubes de puntos si faltan (`site-viewer-lite-starter/data/clouds/`), arranca la API en `:3000` y el visor en `http://localhost:5173`. Para abrirlo desde un iPad en la misma red: `http://<ip-del-computador>:5173`.
+`npm start` instala las dependencias y ejecuta `npm run dev`, que genera las nubes de puntos si faltan (`site-viewer-lite-starter/data/clouds/`), arranca la API en `:3000` y el visor en `http://localhost:5173`. Para abrirlo desde un iPad en la misma red: `http://<ip-del-computador>:5173`.
 
 | Comando                | Qué hace                                                                  |
 | ---------------------- | ------------------------------------------------------------------------- |
@@ -64,6 +63,7 @@ Arquitectura: Screaming (un módulo por feature) con Clean ligera dentro de cada
 
 - Los reportes de problemas se guardan en memoria y se pierden al reiniciar. Habría que persistirlos en un archivo o una base de datos.
 - Comparación de tokens en tiempo constante, o tokens hasheados.
+- **Login real:** el enunciado pide un selector de token (staff, acme, brick) para cambiar de usuario y comprobar el aislamiento. En producción cada persona iniciaría sesión y recibiría solo su propio token. El aislamiento ya está en la API, así que el visor no cambiaría.
 - **Pruebas del visor:** el enunciado solo exige las de la API, así que el visor no tiene pruebas automáticas. Las primeras serían el parser PTS1 (truncado y marca inválida) y la carrera de `useApi`/`useCloud` al cambiar de proyecto.
 - **Tipos compartidos API ↔ visor:** hoy el visor importa los tipos con `import type` desde la carpeta de la API (ADR-013), así que quedan acoplados a la estructura del monorepo. Si se separan los repositorios: generar `openapi.json` con `@fastify/swagger` (a partir de los mismos schemas TypeBox) y los tipos del visor con `openapi-typescript`.
 

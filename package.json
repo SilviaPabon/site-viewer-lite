@@ -15,7 +15,8 @@
     "typecheck": "npm run typecheck --workspaces",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "predev": "npm run setup"
+    "predev": "npm run setup",
+    "start": "npm install && npm run dev"
   },
   "devDependencies": {
     "concurrently": "^10.0.7",
