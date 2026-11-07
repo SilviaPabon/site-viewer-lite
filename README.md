@@ -48,12 +48,18 @@ Arquitectura: Screaming (un módulo por feature) con Clean ligera dentro de cada
 
 ## Parte B: visor
 
-En construcción.
+- **Usuario → lista → ficha:** botones Staff / Acme / Brick. Las fechas vacías muestran "Not recorded"; email y teléfono aparecen solo si la API los envía (staff).
+- **Escena 3D:** cuartos como cajas con eje Z hacia arriba, un color por nivel, OrbitControls (mouse y touch), tocar un cuarto abre su panel (área en m²/ft²) y filtro por nivel.
+- **Nube de puntos:** se descarga y se parsea en un Web Worker con progreso real (bytes leídos / `Content-Length`). Las posiciones y los colores pasan al hilo principal como transferables, sin copiarse. Un archivo truncado se detecta comparando su tamaño con el N de la cabecera.
+- **Cancelación:** botón Cancel; cambiar de proyecto o de usuario también cancela. Cada carga usa su propio worker y `terminate()` corta la descarga y el parseo. Un id de carga descarta cualquier mensaje viejo que ya estuviera en cola.
+- **Errores:** todos se muestran con un mensaje y "Try again", nunca con `alert()`.
 
 ## Pendiente / con un día más
 
 - Los reportes de problemas se guardan en memoria y se pierden al reiniciar. Habría que persistirlos en un archivo o una base de datos.
 - Comparación de tokens en tiempo constante, o tokens hasheados.
+- **Pruebas del visor:** el enunciado solo exige las de la API, así que el visor no tiene pruebas automáticas. Las primeras serían el parser PTS1 (truncado y marca inválida) y la carrera de `useApi`/`useCloud` al cambiar de proyecto.
+- **Tipos compartidos API ↔ visor:** hoy el visor importa los tipos con `import type` desde la carpeta de la API (ADR-013), así que quedan acoplados a la estructura del monorepo. Si se separan los repositorios: generar `openapi.json` con `@fastify/swagger` (a partir de los mismos schemas TypeBox) y los tipos del visor con `openapi-typescript`.
 
 ## Uso de IA
 
