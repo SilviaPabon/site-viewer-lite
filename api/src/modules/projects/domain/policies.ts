@@ -1,28 +1,13 @@
 import type { User } from '../../auth/domain/user.js';
 import type { Contact, Project } from './project.js';
+import type { ProjectDetail, ProjectSummary, PublicContact } from './dto.js';
 
 // Staff sees every project; a client only those of its own account.
 export function canSee(user: User, project: Project): boolean {
   return user.role === 'staff' || project.account === user.account;
 }
 
-export type ProjectSummary = {
-  id: string;
-  name: string;
-  address: string;
-  status: string;
-  clientName: string;
-};
-
-export type PublicContact = { role: string; name: string; email?: string | null; phone?: string | null };
-
-export type ProjectDetail = ProjectSummary & {
-  dates: Project['dates'];
-  levels: string[];
-  contacts: PublicContact[];
-};
-
-// Allowlist DTOs (ADR-005, layer 2): every field is copied by name, never spread.
+// Allowlist DTOs (ADR-005, layer 2): every field is copied by name, never spread from a full object.
 export function toProjectSummary(p: Project): ProjectSummary {
   return { id: p.id, name: p.name, address: p.address, status: p.status, clientName: p.client.name };
 }

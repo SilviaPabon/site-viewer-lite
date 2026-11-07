@@ -1,6 +1,7 @@
 import type { User } from '../../auth/domain/user.js';
 import type { Project, ProjectRepository } from '../domain/project.js';
-import { canSee, toProjectDetail, toProjectSummary, type ProjectDetail, type ProjectSummary } from '../domain/policies.js';
+import { canSee, toProjectDetail, toProjectSummary } from '../domain/policies.js';
+import type { ProjectDetail, ProjectSummary } from '../domain/dto.js';
 
 export function listProjects(repo: ProjectRepository, user: User): ProjectSummary[] {
   return repo.findAll().filter((p) => canSee(user, p)).map(toProjectSummary);

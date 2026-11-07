@@ -75,3 +75,9 @@ Una prueba recorre todas las respuestas, de cada usuario, buscando `internal|pri
 **Decisión:** el kit se versiona sin cambios, salvo `data/clouds/`, que va al `.gitignore`. `npm run setup` genera las nubes con su propio `tools/make-cloud.js`. La API lee `DATA_DIR`, que por defecto es `site-viewer-lite-starter/data`.
 **Alternativas descartadas:** copiar los datos a un `data/` propio (los duplica y se pueden desincronizar) y versionar los `.pts` (archivos binarios pesados en git).
 **Consecuencias:** se respeta la estructura en que se entregó el kit. El primer arranque tarda unos segundos más mientras se generan las nubes.
+
+## ADR-012 — TypeBox como fuente única de tipos y schemas
+**Contexto:** cada forma de datos que cruza HTTP necesitaba dos definiciones: un `type` de TypeScript (que desaparece al compilar) y un JSON Schema (que Fastify usa en runtime para validar y serializar). Las dos se podían desincronizar sin que nada avisara.
+**Decisión:** las formas se escriben una vez con TypeBox (`typebox`) y el tipo se deriva con `Static<typeof X>`. Las rutas usan `FastifyPluginAsyncTypebox` (`@fastify/type-provider-typebox`, mantenido por el equipo de Fastify), que infiere `request.params`, `request.body` y la respuesta a partir de los schemas. Los schemas de las respuestas viven en `domain/` del módulo: TypeBox es una librería de schemas, no depende de Fastify.
+**Alternativas descartadas:** JSON Schema a mano más `type` (duplicación); `json-schema-to-ts` (deriva tipos de JSON Schema plano, pero su sintaxis es más verbosa y los tipos son más lentos de compilar); Zod con `fastify-type-provider-zod` (popular, pero no lo mantiene Fastify y necesita convertir a JSON Schema para el serializador rápido).
+**Consecuencias:** dos dependencias más. Desaparecen los genéricos manuales como `app.get<{ Params }>`. Un campo nuevo se declara en un solo lugar, y si no se declara, el serializador lo descarta.

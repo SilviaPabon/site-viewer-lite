@@ -10,7 +10,7 @@ Enunciado completo: `Prueba técnica Full Stack 3D (1).pdf` (no versionado). Dec
 4. Acabado visual: viene después de lo anterior.
 
 ## Stack
-TypeScript en todo · npm workspaces (`api/`, `visor-web/`) · Node 18+ · Fastify · Vitest · Vue 3 + Vite · three.js.
+TypeScript en todo · npm workspaces (`api/`, `visor-web/`) · Node 18+ · Fastify + TypeBox (ADR-012) · Vitest · Vue 3 + Vite · three.js.
 No hay base de datos: los datos viven en el kit `site-viewer-lite-starter/data/` (JSON), tal como lo entregaron. Las nubes `.pts` se generan con `site-viewer-lite-starter/tools/make-cloud.js` y no se versionan.
 
 ## Comandos
