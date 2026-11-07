@@ -3,6 +3,7 @@ import type { ProjectRepository } from '../domain/project.js';
 import { ProjectDetail, ProjectSummary } from '../domain/dto.js';
 import { getProject, listProjects } from '../application/project-queries.js';
 import { ErrorBody, NOT_FOUND, ProjectIdParams } from '../../core/http.js';
+import { conditionalGet } from '../../core/etag.js';
 
 // The TypeBox plugin type infers request.params and the reply types from the schemas below.
 export const projectRoutes: FastifyPluginAsyncTypebox<{ projects: ProjectRepository }> = async (app, { projects }) => {
@@ -12,6 +13,7 @@ export const projectRoutes: FastifyPluginAsyncTypebox<{ projects: ProjectReposit
 
   app.get('/api/projects/:id', {
     schema: { params: ProjectIdParams, response: { 200: ProjectDetail, 404: ErrorBody } },
+    onSend: conditionalGet, // rule 6: ETag + 304, per user, never in a shared cache
   }, async (request, reply) => {
     const detail = getProject(projects, request.user, request.params.id);
     return detail ?? reply.code(404).send(NOT_FOUND);
