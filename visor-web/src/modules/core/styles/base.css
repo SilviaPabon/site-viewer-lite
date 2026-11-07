@@ -55,3 +55,38 @@ select {
   /* Removes the double-tap-to-zoom delay on buttons, without disabling pinch-zoom. */
   touch-action: manipulation;
 }
+
+/* Shared look: every button in the app is styled here once, components only add layout. */
+button {
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+}
+button[aria-pressed="true"],
+button[aria-current="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+h2 {
+  font-size: 16px;
+  margin: 16px 0 8px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.plain-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
