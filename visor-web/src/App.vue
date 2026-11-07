@@ -14,6 +14,7 @@ import SpaceView from "./modules/viewer-3d/components/SpaceView.vue";
 import SpacePanel from "./modules/viewer-3d/components/SpacePanel.vue";
 import LevelFilter from "./modules/viewer-3d/components/LevelFilter.vue";
 import { CloudLoader, useCloud } from "./modules/point-cloud";
+import IssueForm from "./modules/issues/components/IssueForm.vue";
 
 const token = ref<string | null>(null);
 const projectId = ref<string | null>(null);
@@ -75,6 +76,15 @@ const cloud = useCloud(projectId, token);
             :project="detail.data.value"
           />
           <SpacePanel v-if="space" :space="space" />
+          <!-- key: a new project starts with an empty form. -->
+          <IssueForm
+            v-if="detail.data.value"
+            :key="projectId"
+            :project-id="projectId"
+            :token="token"
+            :levels="detail.data.value.levels"
+            :space="space"
+          />
         </template>
       </template>
     </aside>
