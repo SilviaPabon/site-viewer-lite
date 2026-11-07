@@ -8,6 +8,7 @@ import { createUserJsonRepository } from "../auth/infra/user-json-repository.js"
 import { createProjectJsonRepository } from "../projects/infra/project-json-repository.js";
 import { createSpaceJsonRepository } from "../spaces/infra/space-json-repository.js";
 import { createCloudFileStore } from "./infra/cloud-file-store.js";
+import { createMemoryIssueRepository } from "../issues/infra/memory-issue-repository.js";
 import { auth } from "../../test-utils.js";
 
 // A tiny PTS1 file (header + 2 points) so the test doesn't depend on the 30 MB generated cloud.
@@ -35,6 +36,7 @@ describe("point cloud (rule 7)", () => {
       projects: await createProjectJsonRepository(DATA_DIR),
       spaces: createSpaceJsonRepository(DATA_DIR),
       clouds: createCloudFileStore(tmp),
+      issues: createMemoryIssueRepository(),
     });
   });
   afterAll(() => rm(tmp, { recursive: true, force: true }));

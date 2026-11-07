@@ -4,12 +4,14 @@ import { createUserJsonRepository } from "./modules/auth/infra/user-json-reposit
 import { createProjectJsonRepository } from "./modules/projects/infra/project-json-repository.js";
 import { createSpaceJsonRepository } from "./modules/spaces/infra/space-json-repository.js";
 import { createCloudFileStore } from "./modules/point-cloud/infra/cloud-file-store.js";
+import { createMemoryIssueRepository } from "./modules/issues/infra/memory-issue-repository.js";
 
 const app = buildApp({
   users: await createUserJsonRepository(DATA_DIR),
   projects: await createProjectJsonRepository(DATA_DIR),
   spaces: createSpaceJsonRepository(DATA_DIR),
   clouds: createCloudFileStore(DATA_DIR),
+  issues: createMemoryIssueRepository(),
 });
 
 try {
