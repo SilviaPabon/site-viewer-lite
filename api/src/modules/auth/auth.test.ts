@@ -40,6 +40,24 @@ describe("auth (rule 1)", () => {
     expect(res.json()).toEqual({ name: "Sam Lee", role: "client" });
   });
 
+  it.each([
+    ["GET", "/api/projects"],
+    ["GET", "/api/projects/1201-30001"],
+    ["GET", "/api/projects/1201-30001/spaces"],
+    ["GET", "/api/projects/1201-30001/cloud"],
+    ["POST", "/api/projects/1201-30001/issues"],
+  ] as const)(
+    "every real route: %s %s without token → 401",
+    async (method, url) => {
+      const res = await app.inject({
+        method,
+        url,
+        payload: method === "POST" ? {} : undefined,
+      });
+      expect(res.statusCode).toBe(401);
+    },
+  );
+
   it("unknown routes also need a token (no route discovery)", async () => {
     const res = await app.inject({ method: "GET", url: "/api/nothing-here" });
     expect(res.statusCode).toBe(401);
