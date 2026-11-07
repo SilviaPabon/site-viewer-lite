@@ -28,8 +28,8 @@ defineEmits<{ cancel: []; load: [] }>();
     :message="error ?? ''"
     @retry="$emit('load')"
   />
-  <div v-else-if="status === 'cancelled'" class="loader">
-    <span class="muted">Point cloud not loaded.</span>
+  <div v-else-if="status === 'idle' || status === 'cancelled'" class="loader">
+    <span v-if="status === 'cancelled'" class="muted">Load cancelled.</span>
     <button type="button" @click="$emit('load')">Load point cloud</button>
   </div>
   <p v-else-if="status === 'none'" class="loader muted">{{ error }}</p>

@@ -75,7 +75,14 @@ export function useCloud(
     } satisfies CloudRequest);
   }
 
-  watch([projectId, token], load, { immediate: true });
+  // The brief asks for a "Load point cloud" button, so a new project does not download on its own:
+  // it only stops any download in progress (rule B4) and waits for the button.
+  watch([projectId, token], () => {
+    stop();
+    cloud.value = null;
+    error.value = null;
+    status.value = "idle";
+  });
   onScopeDispose(stop);
   return { status, progress, error, cloud, load, cancel };
 }

@@ -18,7 +18,8 @@ const dates = computed(() => {
 <template>
   <section>
     <h2>{{ project.name }}</h2>
-    <p class="muted">{{ project.address }} · {{ project.clientName }}</p>
+    <p class="muted">{{ project.address }}</p>
+    <p>Client: {{ project.clientName }} · Status: {{ project.status }}</p>
     <dl>
       <template v-for="[label, value] in dates" :key="label">
         <dt>{{ label }}</dt>

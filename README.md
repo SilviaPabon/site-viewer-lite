@@ -53,6 +53,12 @@ Arquitectura: Screaming (un módulo por feature) con Clean ligera dentro de cada
 - **Nube de puntos:** se descarga y se parsea en un Web Worker con progreso real (bytes leídos / `Content-Length`). Las posiciones y los colores pasan al hilo principal como transferables, sin copiarse. Un archivo truncado se detecta comparando su tamaño con el N de la cabecera.
 - **Cancelación:** botón Cancel; cambiar de proyecto o de usuario también cancela. Cada carga usa su propio worker y `terminate()` corta la descarga y el parseo. Un id de carga descarta cualquier mensaje viejo que ya estuviera en cola.
 - **Errores:** todos se muestran con un mensaje y "Try again", nunca con `alert()`.
+- **Rendimiento (iPad):**
+  - **Un solo `THREE.Points`** con `BufferGeometry` para los 2 M de puntos: una sola llamada de dibujo.
+  - **Colores en `Uint8` normalizados:** 6 MB en vez de 24 MB en float.
+  - **Se dibuja solo cuando algo cambia** (cámara o datos), no 60 veces por segundo, y el pixel ratio se limita a 2.
+  - **La descarga se escribe en un único buffer** reservado según `Content-Length`, sin juntar trozos en una copia aparte, y el progreso se envía como máximo unas 100 veces.
+  - **Sin decimación:** con 2 M de puntos no se ve necesaria. Si en un iPad real va lento, el siguiente paso sería cargar un punto de cada k en el worker. No se ha medido en un dispositivo real.
 
 ## Pendiente / con un día más
 
