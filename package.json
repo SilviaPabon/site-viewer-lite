@@ -2,20 +2,23 @@
   "name": "site-viewer-lite",
   "private": true,
   "workspaces": [
-    "api"
+    "api",
+    "visor-web"
   ],
   "engines": {
     "node": ">=18"
   },
   "scripts": {
-    "setup": "node site-viewer-lite-starter/tools/make-cloud.js 1201-30001 && node site-viewer-lite-starter/tools/make-cloud.js 1201-30002 400000 && node site-viewer-lite-starter/tools/make-cloud.js 1201-30001 2000000 --truncate",
-    "dev": "npm run dev -w api",
+    "setup": "node scripts/setup-clouds.mjs",
+    "dev": "concurrently -k -n api,web -c blue,green \"npm run dev -w api\" \"npm run dev -w visor-web\"",
     "test": "npm test -w api",
-    "typecheck": "npm run typecheck -w api",
+    "typecheck": "npm run typecheck --workspaces",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "predev": "npm run setup"
   },
   "devDependencies": {
+    "concurrently": "^10.0.7",
     "prettier": "^3.9.10"
   }
 }
