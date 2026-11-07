@@ -1,4 +1,4 @@
-import { Type, type Static } from 'typebox';
+import { Type, type Static } from "typebox";
 
 // What a project looks like on the wire. Each schema is written once and gives two things:
 // the TypeScript type (compile time) and the JSON Schema Fastify serializes with (runtime).

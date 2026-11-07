@@ -1,12 +1,21 @@
 {
   "name": "site-viewer-lite",
   "private": true,
-  "workspaces": ["api"],
-  "engines": { "node": ">=18" },
+  "workspaces": [
+    "api"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "setup": "node site-viewer-lite-starter/tools/make-cloud.js 1201-30001 && node site-viewer-lite-starter/tools/make-cloud.js 1201-30002 400000 && node site-viewer-lite-starter/tools/make-cloud.js 1201-30001 2000000 --truncate",
     "dev": "npm run dev -w api",
     "test": "npm test -w api",
-    "typecheck": "npm run typecheck -w api"
+    "typecheck": "npm run typecheck -w api",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10"
   }
 }

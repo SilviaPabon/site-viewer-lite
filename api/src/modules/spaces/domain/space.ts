@@ -1,4 +1,4 @@
-import { Type, type Static } from 'typebox';
+import { Type, type Static } from "typebox";
 
 // A room as a box: x, y, z = min corner in metres (Z up); w, d, h = size.
 // One schema: the type for the code and the response schema for Fastify.

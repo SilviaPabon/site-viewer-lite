@@ -19,6 +19,7 @@ npm install
 npm run setup     # genera site-viewer-lite-starter/data/clouds/*.pts (incluye la versión --truncate)
 npm run dev       # API + visor
 npm test          # pruebas (las de la API son obligatorias)
+npm run format    # Prettier (config por defecto) sobre todo el repo
 ```
 La API lee `DATA_DIR` (por defecto `./site-viewer-lite-starter/data`) para poder usar el kit de los evaluadores.
 
