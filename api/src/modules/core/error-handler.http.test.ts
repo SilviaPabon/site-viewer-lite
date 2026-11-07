@@ -84,7 +84,7 @@ describe("error handling", () => {
       "/api/projects/1201-30001/issues",
       '{"title":"","level":"Level 1"}',
     );
-    expect(res.json().message).toMatch(/title/);
+    expect(res.json().message).toBe("Title is required");
   });
 
   it("an unexpected error → generic 500, no cause or stack", async () => {

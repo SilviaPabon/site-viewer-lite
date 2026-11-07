@@ -1,5 +1,6 @@
 import { STATUS_CODES } from "node:http";
 import type { FastifyError, FastifyInstance } from "fastify";
+import { validationMessage } from "./validation-message.js";
 
 // Every error leaves the API as { error, message }. Client mistakes (4xx) keep a useful message;
 // anything else is a 500 with a generic text, and the real cause only goes to the server log.
@@ -19,10 +20,12 @@ export function registerErrorHandling(app: FastifyInstance) {
     }
 
     // Params only carry the project id; don't echo the regex back.
-    const message =
-      err.validation && err.validationContext === "params"
+    // Body errors become a readable sentence the viewer can show as is.
+    const message = !err.validation
+      ? err.message
+      : err.validationContext === "params"
         ? "Invalid project id"
-        : err.message;
+        : validationMessage(err.validation);
     return reply.code(status).send({ error: STATUS_CODES[status], message });
   });
 

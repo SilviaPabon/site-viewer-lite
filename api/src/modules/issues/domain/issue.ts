@@ -27,15 +27,15 @@ export interface IssueRepository {
   save(issue: Issue): Promise<void>;
 }
 
-// Rules that need the project: title not blank once trimmed, level exists, space belongs to that level.
+// Rules beyond the schema: title not blank once trimmed, level exists, space belongs to that level.
 export function validateIssue(
   body: NewIssueBody,
   levels: string[],
   spaces: { id: string; level: string }[],
 ): { ok: true; title: string } | { ok: false; message: string } {
+  // The schema already caps the length; trimming can only make a title blank.
   const title = body.title.trim();
-  if (title.length < 1 || title.length > 120)
-    return { ok: false, message: "Title must be 1 to 120 characters" };
+  if (!title) return { ok: false, message: "Title is required" };
   if (!levels.includes(body.level))
     return { ok: false, message: "Level does not exist in this project" };
   if (body.spaceId !== undefined) {
