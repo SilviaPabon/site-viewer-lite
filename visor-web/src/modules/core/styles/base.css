@@ -1,0 +1,57 @@
+/* iPad rules from the brief: controls >= 44px, no horizontal scroll, no zoom when tapping a field. */
+:root {
+  --tap: 44px;
+  --gap: 12px;
+  --radius: 8px;
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --text: #1c2430;
+  --muted: #5d6b7a;
+  --border: #d9dee5;
+  --accent: #1f6feb;
+  --danger: #c62828;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  height: 100%;
+}
+
+/* Safari zooms into any focused field whose font is under 16px. */
+input,
+select,
+textarea,
+button {
+  font: inherit;
+  font-size: 16px;
+}
+
+button,
+select,
+input:not([type="checkbox"]):not([type="radio"]) {
+  min-height: var(--tap);
+}
+
+button,
+select {
+  min-width: var(--tap);
+  /* Removes the double-tap-to-zoom delay on buttons, without disabling pinch-zoom. */
+  touch-action: manipulation;
+}
