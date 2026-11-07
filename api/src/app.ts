@@ -4,6 +4,7 @@ import type { ProjectRepository } from "./modules/projects/domain/project.js";
 import type { SpaceRepository } from "./modules/spaces/domain/space.js";
 import type { CloudStore } from "./modules/point-cloud/domain/cloud.js";
 import { registerAuth } from "./modules/auth/infra/auth-hook.js";
+import { registerErrorHandling } from "./modules/core/error-handler.js";
 import { projectRoutes } from "./modules/projects/infra/routes.js";
 import { spaceRoutes } from "./modules/spaces/infra/routes.js";
 import { pointCloudRoutes } from "./modules/point-cloud/infra/routes.js";
@@ -27,7 +28,8 @@ export function buildApp(repos: Repos) {
     ajv: { customOptions: { coerceTypes: false } },
   });
 
-  // Auth goes first: route plugins registered after it inherit the hook.
+  // Error handling and auth go first: route plugins registered after them inherit both.
+  registerErrorHandling(app);
   registerAuth(app, repos.users);
   app.register(projectRoutes, { projects: repos.projects });
   app.register(spaceRoutes, { projects: repos.projects, spaces: repos.spaces });
